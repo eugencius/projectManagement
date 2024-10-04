@@ -21,7 +21,7 @@ export default function SideBar() {
       <ul className="flex flex-col gap-1">
         {projects.map((project, id) => (
           <li
-            className={`${selectedProject === selectedProjectId && action === "viewProject" && "bg-stone-900"} rounded p-2 text-lg text-stone-200 duration-300 ease-out hover:bg-stone-900`}
+            className={`${selectedProjectId === id && action === "viewProject" && "bg-stone-900"} rounded p-2 text-lg text-stone-200 duration-300 ease-out hover:bg-stone-900`}
             key={id}
             onClick={() => {
               displayProject(id);
