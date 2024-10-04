@@ -2,10 +2,12 @@ import Input from "./Input.jsx";
 import { useRef } from "react";
 import Modal from "./Modal.jsx";
 
-export default function CreationPage({
-  handleChangePage,
-  handleProjectCreation,
-}) {
+import { ProjectsContext } from "../store/projects-context";
+import { useContext } from "react";
+
+export default function CreationPage() {
+  const { createProject, changePage } = useContext(ProjectsContext);
+
   const titleRef = useRef();
   const descriptionRef = useRef();
   const dueDateRef = useRef();
@@ -33,7 +35,7 @@ export default function CreationPage({
       tasks: [],
     };
 
-    handleProjectCreation(newProject);
+    createProject(newProject);
   }
 
   return (
@@ -52,7 +54,7 @@ export default function CreationPage({
           <button
             className="cursor-pointer rounded-lg px-6 py-2 text-xl duration-300 ease-out hover:bg-stone-200"
             onClick={() => {
-              handleChangePage("home");
+              changePage("home");
             }}
           >
             Cancel

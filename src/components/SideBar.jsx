@@ -1,11 +1,11 @@
-export default function SideBar({
-  projectsState,
-  handleDisplayProject,
-  handleChangePage,
-}) {
-  const projects = projectsState.projects;
-  const selectedProject = projectsState.selectedProjectId;
-  const currentPage = projectsState.action;
+import { ProjectsContext } from "../store/projects-context";
+import { useContext } from "react";
+
+export default function SideBar() {
+  const { projects, selectedProjectId, action, displayProject, changePage } =
+    useContext(ProjectsContext);
+
+  const selectedProject = projects.selectedProjectId;
 
   return (
     <aside className="h-full w-1/3 max-w-md rounded-tr-xl bg-stone-950 px-8 py-24 text-stone-50">
@@ -13,7 +13,7 @@ export default function SideBar({
       <button
         className="mb-8 rounded-lg bg-stone-700 px-4 py-2 text-lg text-stone-400 duration-300 ease-out hover:bg-stone-800"
         onClick={() => {
-          handleChangePage("creation");
+          changePage("creation");
         }}
       >
         + Add Project
@@ -21,10 +21,10 @@ export default function SideBar({
       <ul className="flex flex-col gap-1">
         {projects.map((project, id) => (
           <li
-            className={`${selectedProject === id && currentPage === "viewProject" && "bg-stone-900"} rounded p-2 text-lg text-stone-200 duration-300 ease-out hover:bg-stone-900`}
+            className={`${selectedProject === selectedProjectId && action === "viewProject" && "bg-stone-900"} rounded p-2 text-lg text-stone-200 duration-300 ease-out hover:bg-stone-900`}
             key={id}
             onClick={() => {
-              handleDisplayProject(id);
+              displayProject(id);
             }}
           >
             {project.title}

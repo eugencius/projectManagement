@@ -1,27 +1,28 @@
 import { useRef, useState } from "react";
 import Modal from "./Modal.jsx";
 
-export default function Tasks({
-  handleAddTask,
-  handleDeleteTask,
-  projectsState,
-}) {
+import { ProjectsContext } from "../store/projects-context";
+import { useContext } from "react";
+
+export default function Tasks() {
+  const { selectedProjectId, projects, addTask, deleteTask } =
+    useContext(ProjectsContext);
+
   const [enteredTask, setEnteredTask] = useState("");
-  const projectId = projectsState.selectedProjectId;
-  const selectedProject = projectsState.projects[projectId];
+  const selectedProject = projects[selectedProjectId];
   const modal = useRef();
 
   function handleChange(event) {
     setEnteredTask(event.target.value);
   }
 
-  function addTask() {
+  function handleAddTask() {
     if (enteredTask.trim() === "") {
       modal.current.open();
       return;
     }
 
-    handleAddTask(enteredTask, projectId);
+    addTask(enteredTask, selectedProjectId);
     setEnteredTask("");
   }
 
@@ -47,7 +48,7 @@ export default function Tasks({
           />
           <button
             className="text-lg text-stone-700 duration-300 ease-out hover:text-stone-950"
-            onClick={addTask}
+            onClick={handleAddTask}
           >
             Add Task
           </button>
@@ -63,7 +64,7 @@ export default function Tasks({
                 <button
                   className="duration-300 ease-out hover:text-red-500"
                   onClick={() => {
-                    handleDeleteTask(projectId, i);
+                    deleteTask(selectedProjectId, i);
                   }}
                 >
                   Clear

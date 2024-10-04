@@ -1,14 +1,12 @@
-import { useRef } from "react";
 import Tasks from "./Tasks.jsx";
+import { ProjectsContext } from "../store/projects-context";
+import { useContext } from "react";
 
-export default function ProjectDisplay({
-  projectsState,
-  handleAddTask,
-  handleDeleteProject,
-  handleDeleteTask,
-}) {
-  const projectId = projectsState.selectedProjectId;
-  const selectedProject = projectsState.projects[projectId];
+export default function ProjectDisplay() {
+  const { selectedProjectId, projects, deleteProject } =
+    useContext(ProjectsContext);
+
+  const selectedProject = projects[selectedProjectId];
 
   const date = new Date(selectedProject.dueDate);
   const dateOptions = {
@@ -29,7 +27,7 @@ export default function ProjectDisplay({
           <button
             className="text-lg duration-300 ease-out hover:text-red-500"
             onClick={() => {
-              handleDeleteProject(projectId);
+              deleteProject(selectedProjectId);
             }}
           >
             Delete
@@ -40,11 +38,7 @@ export default function ProjectDisplay({
           {selectedProject.description}
         </p>
       </div>
-      <Tasks
-        handleAddTask={handleAddTask}
-        handleDeleteTask={handleDeleteTask}
-        projectsState={projectsState}
-      />
+      <Tasks />
     </div>
   );
 }
